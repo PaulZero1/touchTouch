@@ -26,6 +26,9 @@
 			index = 0,
 			allitems = this,
 			items = allitems;
+		var options = arguments[0] || {
+			imgCloser: false
+		}
 		
 		// Appending the markup to the page
 		overlay.hide().appendTo('body');
@@ -246,7 +249,13 @@
 		function loadImage(src, callback){
 
 			var img = $('<img>').on('load', function(){
-				callback.call(img);
+				if ( options.imgCloser ) {
+					span = $('<span class="imgWrapper"><a href="javascript:void(0);">X</a></span>');
+					img.prependTo(span);
+					callback.call(span);
+				} else {
+					callback.call(img);
+				}
 			});
 			
 			img.attr('src',src);
